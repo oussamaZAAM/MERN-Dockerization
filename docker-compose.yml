@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mongodb-service:
+    image: localhost:5050/mongo:v1.0
+    container_name: mongodb-service
+    ports:
+      - 27017:27017
+    volumes:
+      - firstVol:/data/db
+  backend:
+    image: localhost:5050/firstimage:v1.0
+    container_name: backend
+    depends_on:
+      - mongodb-service
+    ports:
+      - 5000:5000
+  frontend:
+    image: localhost:5050/frontimage:v.1.0
+    container_name: frontend
+    ports:
+      - 80:80
+    restart: always
+
+volumes:
+  firstVol: 

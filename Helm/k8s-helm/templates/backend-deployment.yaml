@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    chart: backend
+spec:
+  selector:
+    matchLabels:
+      app: "backend-selector"
+  template:
+    metadata:
+      labels:
+        app: "backend-selector"
+    spec:
+      containers:
+      - name: backend
+        image: "{{ .Values.backend.image.repository }}/{{ .Values.backend.image.tag }}"
+        imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: {{ .Values.backend.service.servicePort }}
+          initialDelaySeconds: {{ .Values.backend.livenessProbe.initialDelaySeconds}}
+          periodSeconds: {{ .Values.backend.livenessProbe.periodSeconds}}
+        ports:
+        - containerPort: {{ .Values.backend.service.servicePort}}
+        env:
+          - name: PORT
+            value : "{{ .Values.backend.service.servicePort }}"
+          - name: APPLICATION_NAME
+            value: "{{ .Release.Name }}"
+          - name: MONGO_URL
+            value: {{ .Values.backend.services.mongo.url }}
+          - name: MONGO_DB_NAME
+            value: {{ .Values.backend.services.mongo.name }}

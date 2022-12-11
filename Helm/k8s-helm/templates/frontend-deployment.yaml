@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    chart: frontend
+spec:
+  selector:
+    matchLabels:
+      app: "frontend-selector"
+  template:
+    metadata:
+      labels:
+        app: "frontend-selector"
+    spec:
+      containers:
+      - name: frontend
+        image: "{{ .Values.frontend.image.repository }}/{{ .Values.frontend.image.tag }}"
+        imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.frontend.service.servicePort }}
+          initialDelaySeconds: {{ .Values.frontend.livenessProbe.initialDelaySeconds}}
+          periodSeconds: {{ .Values.frontend.livenessProbe.periodSeconds}}
+        ports:
+        - containerPort: {{ .Values.frontend.service.servicePort}}

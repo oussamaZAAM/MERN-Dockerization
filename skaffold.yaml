@@ -1,0 +1,43 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: lab
+build:
+  artifacts:
+  - image: oussamazaam/firstimage
+    context: backend
+    docker:
+      dockerfile: Dockerfile
+  - image: oussamazaam/frontimage
+    context: frontend
+    docker:
+      dockerfile: Dockerfile
+manifests:
+  rawYaml:
+  - k8s/backend-deployment.yml
+  - k8s/configmaps.yml
+  - k8s/exam.yml
+  - k8s/frontend-deployment.yml
+  - k8s/ingress-file.yml
+  - k8s/mongodb-deployment.yml
+  - MonitorLog/EFK/elasticsearch/es-sts.yaml
+  - MonitorLog/EFK/elasticsearch/es-svc.yaml
+  - MonitorLog/EFK/fluentd/fluentd-ds.yaml
+  - MonitorLog/EFK/fluentd/fluentd-rb.yaml
+  - MonitorLog/EFK/fluentd/fluentd-role.yaml
+  - MonitorLog/EFK/fluentd/fluentd-sa.yaml
+  - MonitorLog/EFK/kibana/kibana-deployment.yaml
+  - MonitorLog/EFK/kibana/kibana-svc.yaml
+  - MonitorLog/grafana/deployment.yaml
+  - MonitorLog/grafana/grafana-datasource-config.yaml
+  - MonitorLog/grafana/service.yaml
+  - MonitorLog/prometheus/cluster-role.yml
+  - MonitorLog/prometheus/config-map.yml
+  - MonitorLog/prometheus/prometheus-deployment.yml
+  - MonitorLog/prometheus/prometheus-ingress.yml
+  - MonitorLog/prometheus/prometheus-service.yml
+  - MonitorLog/prometheus/kube-state-metrics-configs/cluster-role-binding.yaml
+  - MonitorLog/prometheus/kube-state-metrics-configs/cluster-role.yaml
+  - MonitorLog/prometheus/kube-state-metrics-configs/deployment.yaml
+  - MonitorLog/prometheus/kube-state-metrics-configs/service-account.yaml
+  - MonitorLog/prometheus/kube-state-metrics-configs/service.yaml
