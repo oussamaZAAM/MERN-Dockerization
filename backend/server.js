@@ -24,9 +24,11 @@ app.use('/api/', (req, res, next) => {
     next();
 });
 
+// const connection = process.env.CONNECTION_STRING;
+const connection = `mongodb://mongodb-service/exam`;
 mongoose
     .connect(
-        `mongodb://mongodb-service/exam`, {
+        connection, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })

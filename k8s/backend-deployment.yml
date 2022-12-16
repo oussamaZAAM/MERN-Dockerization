@@ -32,10 +32,17 @@ spec:
       containers:
         - name: backend
           image: oussamazaam/firstimage
+          # image: oussamazaam/secondimage:v2
           resources: {}
           ports:
             - containerPort: 5000
               name: back-port
+          # env:
+          #   - name: CONNECTION_STRING
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: examplemongodb-admin-myuser
+          #         key: connectionString.standardSrv
           livenessProbe:
             tcpSocket:
               port: 5000
